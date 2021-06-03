@@ -6,10 +6,10 @@ package io.flutter.plugins.videoplayer;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.util.LongSparseArray;
 import androidx.annotation.NonNull;
 import io.flutter.FlutterInjector;
-import io.flutter.Log;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
@@ -175,15 +175,21 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
               options);
     }
     videoPlayers.put(handle.id(), player);
-
+    Log.d("VideoPlayerPlugin", "add id = " + handle.id());
+    Log.d("VideoPlayerPlugin", "addCount = " + ++addCount);
     TextureMessage result = new TextureMessage();
     result.setTextureId(handle.id());
     return result;
   }
 
+  int disposeCount = 0;
+  int addCount = 0;
+
   public void dispose(TextureMessage arg) {
+    Log.d("VideoPlayerPlugin", "dispose id = " + arg.getTextureId());
     VideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.dispose();
+    Log.d("VideoPlayerPlugin", "disposeCount = " + ++disposeCount);
     videoPlayers.remove(arg.getTextureId());
   }
 
