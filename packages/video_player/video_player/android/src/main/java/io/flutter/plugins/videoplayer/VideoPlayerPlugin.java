@@ -176,21 +176,19 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
     }
     videoPlayers.put(handle.id(), player);
     Log.d("VideoPlayerPlugin", "add id = " + handle.id());
-    Log.d("VideoPlayerPlugin", "addCount = " + ++addCount);
+    Log.d("VideoPlayerPlugin", "addCount = " + videoPlayers.size());
     TextureMessage result = new TextureMessage();
     result.setTextureId(handle.id());
     return result;
   }
 
-  int disposeCount = 0;
-  int addCount = 0;
 
   public void dispose(TextureMessage arg) {
     Log.d("VideoPlayerPlugin", "dispose id = " + arg.getTextureId());
     VideoPlayer player = videoPlayers.get(arg.getTextureId());
     player.dispose();
-    Log.d("VideoPlayerPlugin", "disposeCount = " + ++disposeCount);
     videoPlayers.remove(arg.getTextureId());
+    Log.d("VideoPlayerPlugin", "disposeCount = " + videoPlayers.size());
   }
 
   public void setLooping(LoopingMessage arg) {
